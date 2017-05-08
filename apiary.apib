@@ -113,6 +113,89 @@ This API shows only how an error message looks like
                 }
             }
 
+
+## Login using open id connect [/login]
+
+### Authentication Request [GET /authentication_request]
+
++ Response 200 (plain/text)
+    + Headers
+
+            Location:  https://cleint.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=af0ifjsldkj
+            
+            
+    + Body
+
+## Token endpoint [/token]
+### Verify token [POST]
+
+To retrieve the ID token
+
++ Request
+
+    + Headers
+    
+            Content-Type: application/x-www-form-urlencoded
+            Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+    
+    + Body
+    
+            grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+
++ Response 200
+
+    + Headers
+
+            Content-Type: application/json
+            Cache-Control: no-store
+            Pragma: no-cache
+
+    + Body
+
+            {
+              "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlOWdkazcifQ.ewogImlzc
+                yI6ICJodHRwOi8vc2VydmVyLmV4YW1wbGUuY29tIiwKICJzdWIiOiAiMjQ4Mjg5
+                NzYxMDAxIiwKICJhdWQiOiAiczZCaGRSa3F0MyIsCiAibm9uY2UiOiAibi0wUzZ
+                fV3pBMk1qIiwKICJleHAiOiAxMzExMjgxOTcwLAogImlhdCI6IDEzMTEyODA5Nz
+                AKfQ.ggW8hZ1EuVLuxNuuIJKX_V8a_OMXzR0EHR9R6jgdqrOOF4daGU96Sr_P6q
+                Jp6IcmD3HP99Obi1PRs-cwh3LO-p146waJ8IhehcwL7F09JdijmBqkvPeB2T9CJ
+                NqeGpe-gccMg4vfKjkM8FcGvnzZUN4_KSP0aAp1tOJ1zZwgjxqGByKHiOtX7Tpd
+                QyHE5lcMiKPXfEIQILVq0pc_E2DzL7emopWoaoZTF_m0_N0YzFC6g6EJbOEoRoS
+                K5hoDalrcvRYLSrQAZZKflyuVCyixEoV9GfNQC3_osjzw2PAithfubEEBLuVVk4
+                XUVrWOLrLl0nx7RkKU8NXNHq-rvKMzqg"
+              "access_token": "SlAV32hkKG",
+              "token_type": "Bearer",
+              "expires_in": 3600,
+            }
+  
+## Token endpoint [/userinfo]
+### Retrieve user info [GET]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer SlAV32hkKG
+    
+    + Body
+    
+            grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            {
+              "sub" : "alice",
+              "email" : "alice@wonderland.net",
+              "email_verified" : true,
+              "name" : "Alice Adams",
+              "picture" : "https://c2id.com/users/alice.jpg"
+            }
+            
+
 # Data Structures
 
 ## Message (object)
