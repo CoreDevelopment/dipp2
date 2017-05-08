@@ -1,0 +1,121 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# DIPP 
+
+DIPP is the digital identity and payment portal
+
+## Enrollment [/enrollment]
+
+### Get a uinique identity (UID) [GET]
+
++ Response 200 (application/json)
+    
+    + Body
+
+            {"uid": "4c0b8832-b263-4e71-a519-5abbe1f82a70"}
+
+
+### Create a New Account [POST]
+
+You may create your own acount using this action. It takes a JSON
+object containing the user data.
+
++ Request A (application/json)
+
+        {
+            "email": "max.musterman@email.de",
+            "mobile_phone_number": "01761231234",
+            "surname": "Musterman",
+            "firstname": "Max",
+            "password": "hashed_pwd"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /users/2
+
+    + Body
+
+            {
+                "email": "max.musterman@email.de",
+                "mobile_phone_number": "01761231234",
+                "surname": "Musterman",
+                "firstname": "Max",
+                "password": "hashed_pwd",
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://polls.apiblueprint.org/users/2"
+                    }
+                ]
+            }
+
+
+### Update an existing  New Account [PUT]
+
+You can update your own acount using this action. It takes a JSON
+object containing the user data.
+
++ Request (application/json)
+
+        {
+            "email": "max.musterman@email.de",
+            "mobile_phone_number": "01761231234",
+            "surname": "Musterman",
+            "firstname": "Max",
+            "password": "hashed_pwd"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /users/2
+
+    + Body
+
+            {
+                "uid": "4c0b8832-b263-4e71-a519-5abbe1f82a70",
+                "email": "max.musterman@email.de",
+                "mobile_phone_number": "01761231234",
+                "surname": "Musterman",
+                "firstname": "Max",
+                "password": "hashed_pwd",
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "http://polls.apiblueprint.org/users/2"
+                    }
+                ]
+            }
+                     
+                     
+### An error use case [GET /error]
+
+This API shows only how an error message looks like
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "error": {
+                    "code": "int: error code",
+                    "name": "string: error name",
+                    "message": "string: error message string",
+                    "description": "string / null: error description",
+                    "eventID": "string: timestamp+server_id (i.e.: kubernet-ess_pod_id)",
+                    "classification": "string: classification of error source",
+                    "additional": "object: any additional data"
+                }
+            }
+
+# Data Structures
+
+## Message (object)
+
+    + text (string) - text of the message
+    + author (Author) - author of the message
