@@ -1,7 +1,7 @@
 FORMAT: 1A
 HOST: http://polls.apiblueprint.org/
 
-# DIPP 
+# test13368 
 
 DIPP is the digital identity and payment portal
 
@@ -116,20 +116,30 @@ This API shows only how an error message looks like
 
 ## Login using open id connect [/login]
 
-### Authentication Request [GET /authentication_request]
+### Authentication request [POST]
 
-+ Response 200 (plain/text)
+The Service Provider uses this API to redirect their end user's login request to DIPP. The method returns an authorisation code or an error code in the case of unsuccessfull login attempt.
+
++ Request 
+
+        response_type=code
+          &scope=openid
+          &client_id=s6BhdRkqt3
+          &state=af0ifjsldkj
+          &redirect_uri=https%3A%2F%2Fwww.lufthansa.de%2Fcb
+
++ Response 302
     + Headers
+    
+            Location:  https:/www.lufthansa.de/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=af0ifjsldkj
 
-            Location:  https://cleint.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=af0ifjsldkj
-            
-            
     + Body
+    
 
 ## Token endpoint [/token]
 ### Verify token [POST]
 
-To retrieve the ID token
+To retrieve the ID token. The client ID and secret are passed via the Authorization header. (OpenID Connect also permits authentication with signed JWT assertions, which do not expose the client secret with the token request, and hence offer better security.)
 
 + Request
 
@@ -140,7 +150,7 @@ To retrieve the ID token
     
     + Body
     
-            grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+            grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fwww.lufthansa.%2Fcb
 
 + Response 200
 
@@ -190,11 +200,3 @@ To retrieve the ID token
               "name" : "Alice Adams",
               "picture" : "https://c2id.com/users/alice.jpg"
             }
-            
-
-# Data Structures
-
-## Message (object)
-
-    + text (string) - text of the message
-    + author (Author) - author of the message
